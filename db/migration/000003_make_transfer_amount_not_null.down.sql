@@ -1,0 +1,1 @@
+ALTER TABLE "transfers" ALTER COLUMN "amount" DROP NOT NULL;
