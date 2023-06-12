@@ -12,8 +12,16 @@ pipeline {
                     // Wait for Postgres to start 
                     sh 'sleep 10'
                     // Create a database inside the Postgres container
-                    sh 'docker exec -it postgres12 createdb --username=root --owner=root bank'
+                    sh 'docker exec postgres12 createdb --username=root --owner=root bank'
                     
+                }
+
+                post {
+                    always {
+                        // Stop and remove the container after the pipeline finishes
+                        sh 'docker stop postgres12'
+                        sh 'docker rm postgres12'
+                    }
                 }
             }
         }
