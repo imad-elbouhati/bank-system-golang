@@ -14,7 +14,7 @@ pipeline {
             steps {
                 script {
                     // Run migration with the updated hostname
-                    sh 'migrate -path db/migration -verbose -database "postgres://root:admin@localhost:5432/bank?sslmode=disable" up'
+                    sh 'migrate -path db/migration -verbose -database "postgres://root:admin@postgres12:5432/bank?sslmode=disable" up'
                 }
             }
         }
