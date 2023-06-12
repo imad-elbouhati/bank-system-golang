@@ -12,7 +12,7 @@ pipeline {
                     // Wait for Postgres to start 
                     sh 'sleep 10'
                     // drop db if exists
-                    sh 'docker exec -it postgres12 dropdb --if-exists bank'
+                    sh 'docker exec postgres12 dropdb --if-exists bank'
                     // Create a database inside the Postgres container
                     sh 'docker exec postgres12 createdb --username=root --owner=root bank'
                     
@@ -24,7 +24,7 @@ pipeline {
     post {
         always {
             // Stop and remove the container after the pipeline finishes
-            sh 'docker exec -it postgres12 dropdb --if-exists bank'
+            sh 'docker exec postgres12 dropdb --if-exists bank'
             sh 'docker stop postgres12'
         }
     }
