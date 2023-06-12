@@ -26,7 +26,6 @@ pipeline {
             // Stop and remove the container after the pipeline finishes
             sh 'docker exec postgres12 dropdb bank'
             sh 'docker stop postgres12'
-            sh 'docker rm postgres12'
         }
     }
 }
