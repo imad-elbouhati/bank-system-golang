@@ -23,7 +23,7 @@ pipeline {
         stage('Run db migration') {
             steps {
                 script {
-                    sh 'migrate -path db/migration -verbose -database "postgres://root:admin@localhost:5432/bank?sslmode=disable" up'
+                    sh 'migrate -path db/migration -verbose -database "postgres://root:admin@host.docker.internal:5432/bank?sslmode=disable" up'
                 }
             }
         }
