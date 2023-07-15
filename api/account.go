@@ -2,10 +2,12 @@ package api
 
 import (
 	"database/sql"
+	"errors"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 	db "github.com/imad-elbouhati/bank/db/sqlc"
+	"github.com/imad-elbouhati/bank/token"
 )
 
 type CreateAccountRequest struct {
@@ -22,8 +24,10 @@ func (server *Server) createAccount(ctx *gin.Context) {
 		return
 	}
 	
+	authPayload := ctx.MustGet(authorizationPayloadkey).(*token.Payload)
+
 	arg := db.CreateAccountParams {
-		Owner: req.Owner,
+		Owner: authPayload.Username,
 		Currency: req.Currency,
 		Balance: 0,
 	}
@@ -58,6 +62,14 @@ func (server *Server) getAccount(ctx *gin.Context) {
 			return
 		}
 
+		ctx.JSON(http.StatusInternalServerError,errorResponse(err))
+		return
+	}
+
+	authPayload := ctx.MustGet(authorizationPayloadkey).(*token.Payload)
+
+	if account.Owner != authPayload.Username {
+		err := errors.New("account doesn't belong to authenticated user")
 		ctx.JSON(http.StatusInternalServerError,errorResponse(err))
 		return
 	}
